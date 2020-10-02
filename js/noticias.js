@@ -67,7 +67,7 @@ let containerDeNoticias = document.querySelector('#listaDeNoticias')
  
 
 }
-
+pegarNoticias()
 // precisa mostrar o titulo, a descrição e o link da imagem
 
 
