@@ -1,73 +1,39 @@
-let containerDeNoticias = document.querySelector('#listaDeNoticias')
+const API_KEY = "a7c47d67d09b410298a02f830d42c34a";
+const BASE_URL = "https://newsapi.org/v2";
 
+const listaDeNoticias = document.querySelector("#listaDeNoticias");
 
- async function pegarNoticias(){
-    // let noticias = fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=08502394f82f41e0a964646ade0bede3')
-    // .then((resposta)=>{
-    //    return resposta.json()
-    // })
-    // .then((dadosEmJson)=>{
-    //     dadosEmJson.articles.forEach((noticia)=>{
-    //         console.log("------------------------------------------")
-    //         console.log("Titulo Noticia: " + noticia.title)
-    //         console.log("Descrição Noticia: " + noticia.description)
-    //         console.log("O link da Imagem: " + noticia.urlToImage)
-    //     })
+async function getNews() {
+  const response = await fetch(`${BASE_URL}/top-headlines?country=br`, {
+    method: "GET",
+    headers: {
+      "X-Api-Key": API_KEY,
+    },
+  });
 
-    // })
+  const { articles } = await response.json();
 
-    let noticias = await fetch('https://newsapi.org/v2/top-headlines?country=br&apiKey=08502394f82f41e0a964646ade0bede3')
-    
-    let listaDeNoticas = await noticias.json()
+  articles.forEach((article) => {
+    const card = `<div class="col-6">
+        <div class="card mb-3">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="${article.urlToImage}" class="img-fluid rounded-start" alt="..." />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+              <h5 class="card-title">${article.title}</h5>
+              <p class="card-text">
+                  ${article.description}
+              </p>
+              <a href="${article.url}" class="btn btn-primary">Ir para noticia</a>
+              </div>
+            </div>
+          </div>
+    </div>`;
 
-    listaDeNoticas.articles.forEach((noticia)=>{
-
-                let coluna = document.createElement('div')
-                coluna.setAttribute('class', 'col-3')
-
-                let card = document.createElement('div')
-                card.setAttribute('class', 'card')
-
-                let imgCard = document.createElement('img')
-                imgCard.setAttribute('class', 'card-img-top')
-                imgCard.setAttribute('src', noticia.urlToImage)
-
-                let bodyCard = document.createElement('div')
-                bodyCard.setAttribute('class', 'card-body')
-
-                let titleCard = document.createElement('h5')
-                titleCard.setAttribute('class', 'card-title')
-                titleCard.textContent = noticia.title
-
-                let descriptionCard = document.createElement('p')
-                descriptionCard.setAttribute('class', 'card-text')
-                descriptionCard.textContent = noticia.description
-
-                let linkCard = document.createElement('a')
-                linkCard.setAttribute('class', 'btn btn-primary')
-                linkCard.setAttribute('href', noticia.url)
-                linkCard.textContent = "Ir para noticia"
-
-                
-                card.appendChild(imgCard)
-                card.appendChild(bodyCard)
-                bodyCard.appendChild(titleCard)
-                bodyCard.appendChild(descriptionCard)
-                bodyCard.appendChild(linkCard)
-
-                coluna.appendChild(card)
-
-                containerDeNoticias.appendChild(coluna)
-
-                // console.log("------------------------------------------")
-                // console.log("Titulo Noticia: " + noticia.title)
-                // console.log("Descrição Noticia: " + noticia.description)
-                // console.log("O link da Imagem: " + noticia.urlToImage)
-            })
- 
-
+    listaDeNoticias.insertAdjacentHTML("beforeend", card);
+  });
 }
-pegarNoticias()
-// precisa mostrar o titulo, a descrição e o link da imagem
 
-
+getNews();
