@@ -14,8 +14,11 @@ body {
 }
 
 .card img {
-  object-fit: fill;
+  object-fit: cover;
+  height: 290px;
+  border-radius: 8px;
 }
+
 .card-text {
   overflow-y: auto;
   height: 100px;
